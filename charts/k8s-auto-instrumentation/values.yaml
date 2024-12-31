@@ -1,0 +1,77 @@
+---
+# Cluster settings
+cluster:
+  # -- The name of this cluster, which will be set in all labels. Required.
+  # @section -- Cluster Settings
+  name: ""
+
+  # -- The Kubernetes service. Change this if your cluster DNS is configured differently than the default.
+  # @section -- Cluster Settings
+  kubernetesAPIService: kubernetes.default.svc.cluster.local:443
+
+  # -- The specific platform for this cluster. Will enable compatibility for some platforms. Supported options: (empty) or "openshift".
+  # @section -- Cluster Settings
+  platform: ""
+
+beyla:
+  nameOverride: oodle-beyla
+  namespaceOverride: oodle-instrumentation
+  env:
+    BEYLA_PROMETHEUS_FEATURES: application,application_process,application_span,application_service_graph
+
+  config:
+    # -- set to true, to skip the check around the ConfigMap creation
+    skipConfigMapCheck: false
+    # -- set to true, to use the below default configurations
+    create: true
+    ## -- Provide the name of the external configmap containing the beyla configuration.
+    ## To create configmap from configuration file, user can use the below command. Note: The name 'beyla-config.yaml' is important.
+    ## `kubectl create cm --from-file=beyla-config.yaml=<name-of-config-file> -n <namespace>`
+    ## If empty, default configuration below is used.
+    name: ""
+    data:
+      network:
+         enable: true
+      prometheus_export:
+        port: 9090
+        path: /oodle_metrics
+
+alloy:
+  nameOverride: oodle-alloy
+  namespaceOverride: oodle-instrumentation
+  alloy:
+    configMap:
+      # -- Create a new ConfigMap for the config file.
+      create: true
+      # -- Content to assign to the new ConfigMap.  This is passed into `tpl` allowing for templating from values.
+      content: |-
+        logging {
+          level = "info"
+          format = "logfmt"
+        }
+        
+        discovery.kubernetes "oodle" {
+          role = "pod"
+          namespaces {
+            own_namespace = false
+            names         = ["oodle-instrumentation"]
+          }
+        } 
+        
+        prometheus.scrape "oodle" {
+           targets = discovery.kubernetes.oodle.targets
+                 
+           // Scrape all of these services every 15 seconds.
+           scrape_interval = "15s"
+           metrics_path = "/oodle_metrics"
+           forward_to = [prometheus.remote_write.oodle.receiver]
+        }
+        
+        prometheus.remote_write "oodle" {
+          endpoint {
+            url = sys.env("OODLE_REMOTE_WRITE_ENDPOINT")
+            headers = {
+              "X-API-KEY" = sys.env("OODLE_REMOTE_WRITE_API_KEY"),
+            }
+          }
+        }
