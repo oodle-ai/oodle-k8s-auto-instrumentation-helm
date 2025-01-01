@@ -8,7 +8,7 @@ analyze the data using Oodle.
 Create a `values.yaml` file similar to the [example-values.yaml](./example-values.yaml)
 
 ```bash
-cat >> values.yaml << EOF
+cat > values.yaml << EOF
 alloy:
   alloy:
     extraEnv:
