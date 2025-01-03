@@ -5,12 +5,3 @@ alloy:
         value: "<oodle_remote_write_endpoint>"
       - name: OODLE_REMOTE_WRITE_API_KEY
         value: "<oodle_remote_write_api_key>"
-
-beyla:
-  config:
-    data:
-      discovery:
-        services:
-          # Add a specific namespace here to restrict auto-instrumentation.
-          # By default, instrument all namespaces.
-          - k8s_namespace: .
