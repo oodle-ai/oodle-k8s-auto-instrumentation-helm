@@ -20,6 +20,9 @@ beyla:
     BEYLA_PROMETHEUS_FEATURES: application,application_process,application_span,application_service_graph
     BEYLA_NAME_RESOLVER_SOURCES: k8s,dns
 
+  image:
+    tag: 1.9.6
+
   config:
     # -- set to true, to skip the check around the ConfigMap creation
     skipConfigMapCheck: false
