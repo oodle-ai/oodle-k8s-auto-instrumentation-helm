@@ -17,11 +17,18 @@ beyla:
   nameOverride: oodle-beyla
   namespaceOverride: oodle-instrumentation
   env:
-    BEYLA_PROMETHEUS_FEATURES: application,application_process,application_span,application_service_graph
+    BEYLA_PROMETHEUS_FEATURES: application,application_process,application_span,application_service_graph,network,network_inter_zone
     BEYLA_NAME_RESOLVER_SOURCES: k8s,dns
+    BEYLA_NETWORK_METRICS: true
+  resources:
+     limits:
+       memory: 6Gi
+     requests:
+       cpu: 100m
+       memory: 1Gi
 
   image:
-    tag: 1.9.6
+    tag: 2.0.5
 
   config:
     # -- set to true, to skip the check around the ConfigMap creation
