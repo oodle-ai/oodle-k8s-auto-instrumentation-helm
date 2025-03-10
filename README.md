@@ -16,11 +16,13 @@ alloy:
         value: "{OODLE_ENDPOINT}"
       - name: OODLE_REMOTE_WRITE_API_KEY
         value: "{OODLE_API_KEY}"
+      - name: OODLE_CLUSTER_NAME
+        value: "{YOUR_KUBERNETES_CLUSTER_NAME}"
 EOF
 ```
 
 Run the following helm command to start sending data to Oodle.
 ```bash
-helm upgrade --install oodle/oodle-k8s-auto-instrumentation --values values.yaml --namespace oodle-instrumentation --create-namespace
+helm upgrade --install oodle-k8s-auto-instrumentation oodle/oodle-k8s-auto-instrumentation --values values.yaml --namespace oodle-instrumentation --create-namespace
 ```
 

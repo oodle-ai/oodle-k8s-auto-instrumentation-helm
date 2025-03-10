@@ -85,4 +85,7 @@ alloy:
               "X-API-KEY" = sys.env("OODLE_REMOTE_WRITE_API_KEY"),
             }
           }
+          external_labels = {
+            oodle_cluster_name = sys.env("OODLE_CLUSTER_NAME"),
+          }
         }
