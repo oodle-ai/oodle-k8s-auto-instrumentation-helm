@@ -72,8 +72,7 @@ alloy:
         prometheus.scrape "oodle" {
            targets = discovery.kubernetes.oodle.targets
                  
-           // Scrape all of these services every 15 seconds.
-           scrape_interval = "15s"
+           scrape_interval = "60s"
            metrics_path = "/oodle_metrics"
            forward_to = [prometheus.remote_write.oodle.receiver]
         }
