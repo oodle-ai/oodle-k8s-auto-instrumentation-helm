@@ -8,6 +8,6 @@ beyla:
   env:
     OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "<oodle_otel_endpoint>"
     OTEL_EXPORTER_OTLP_HEADERS: "X-API-KEY=<oodle_api_key>"
-    OTEL_RESOURCE_ATTRIBUTES: "oodle_cluster_name=cluster"
+    BEYLA_KUBE_CLUSTER_NAME: "cluster"
 
     BEYLA_NAME_RESOLVER_SOURCES: "k8s,dns"
