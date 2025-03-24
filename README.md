@@ -9,20 +9,25 @@ Create a `values.yaml` file similar to the [example-values.yaml](./example-value
 
 ```bash
 cat > values.yaml << EOF
-alloy:
-  alloy:
-    extraEnv:
-      - name: OODLE_REMOTE_WRITE_ENDPOINT
-        value: "{OODLE_ENDPOINT}"
-      - name: OODLE_REMOTE_WRITE_API_KEY
-        value: "{OODLE_API_KEY}"
-      - name: OODLE_CLUSTER_NAME
-        value: "{YOUR_KUBERNETES_CLUSTER_NAME}"
+beyla:
+  resources:
+    limits:
+      memory: 4Gi
+    requests:
+      cpu: 100m
+      memory: 1Gi
+  env:
+    OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "{OODLE_ENDPOINT}"
+    OTEL_EXPORTER_OTLP_HEADERS: "X-API-KEY={OODLE_API_KEY}"
+    OTEL_RESOURCE_ATTRIBUTES: "oodle_cluster_name={KUBERNETES_CLUSTER_NAME}"
+
+    BEYLA_NAME_RESOLVER_SOURCES: "k8s,dns"
 EOF
 ```
 
 Run the following helm command to start sending data to Oodle.
 ```bash
+helm repo add --force-update oodle https://oodle-ai.github.io/helm-charts;
 helm upgrade --install oodle-k8s-auto-instrumentation oodle/oodle-k8s-auto-instrumentation --values values.yaml --namespace oodle-instrumentation --create-namespace
 ```
 

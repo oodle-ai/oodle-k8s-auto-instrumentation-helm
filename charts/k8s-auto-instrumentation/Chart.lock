@@ -2,8 +2,5 @@ dependencies:
 - name: beyla
   repository: https://grafana.github.io/helm-charts
   version: 1.5.0
-- name: alloy
-  repository: https://grafana.github.io/helm-charts
-  version: 0.10.1
-digest: sha256:912ffc92c9abf04d190491552aab51ba36102a9c95456d61936a7ebb4e5bba32
-generated: "2024-12-31T14:09:04.640234-08:00"
+digest: sha256:5a011f8891994893d8692386bd95a971cd03b3224ed1e9738573c6ff9b4351bc
+generated: "2025-03-24T11:44:15.662946-07:00"
