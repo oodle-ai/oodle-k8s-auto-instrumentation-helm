@@ -47,3 +47,11 @@ beyla:
       profile_port: 6060
       network:
         enable: true
+      discovery:
+        services:
+          # Add a specific namespace here to restrict auto-instrumentation.
+          # By default, instrument all namespaces.
+          - k8s_namespace: .
+        exclude_services:
+          # Short lived processes cause memory leak in beyla.
+          - exe_path: ".*alloy.*|.*otelcol.*|.*beyla.*|.*postgres.*|.*chrome.*"
