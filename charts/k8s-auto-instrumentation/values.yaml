@@ -47,8 +47,6 @@ beyla:
       profile_port: 6060
       network:
         enable: true
-      prometheus_export:
-        port: 0
       discovery:
         services:
           # Add a specific namespace here to restrict auto-instrumentation.
