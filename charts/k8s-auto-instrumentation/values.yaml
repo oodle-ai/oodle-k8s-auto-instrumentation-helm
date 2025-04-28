@@ -23,8 +23,14 @@ beyla:
        cpu: 100m
        memory: 1Gi
 
+  global:
+    image:
+      registry: "public.ecr.aws/h3e9h5g1/oodle"
+      repository: beyla
+
   image:
-    tag: 2.0.7
+    tag: 2.1.0.1
+    repository: beyla
 
   config:
     # -- set to true, to skip the check around the ConfigMap creation
