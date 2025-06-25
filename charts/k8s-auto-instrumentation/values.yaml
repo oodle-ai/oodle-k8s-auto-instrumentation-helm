@@ -30,6 +30,11 @@ beyla:
     tag: 2.2.4.0
     repository: beyla
 
+  # -- Enable prometheus scraping on custom path.
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/oodle_metrics"
+
   env:
     BEYLA_KUBE_CLUSTER_NAME: "" # Kubernetes cluster name
 
