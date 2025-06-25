@@ -27,7 +27,7 @@ beyla:
       repository: beyla
 
   image:
-    tag: 2.2.4.0
+    tag: 2.2.4.1
     repository: beyla
 
   # -- Enable prometheus scraping on custom path.
