@@ -19,7 +19,7 @@ beyla:
        memory: 4Gi
      requests:
        cpu: 100m
-       memory: 1Gi
+       memory: 512Mi
 
   global:
     image:
@@ -27,16 +27,11 @@ beyla:
       repository: beyla
 
   image:
-    tag: 2.1.0.1
+    tag: 2.2.4.0
     repository: beyla
 
   env:
-    OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: ""
-    OTEL_EXPORTER_OTLP_HEADERS: "X-API-KEY="
-    BEYLA_KUBE_CLUSTER_NAME: ""
-    BEYLA_NAME_RESOLVER_SOURCES: "k8s,dns"
-    OTEL_METRIC_EXPORT_TIMEOUT: 120000
-    BEYLA_PROMETHEUS_PORT: 0
+    BEYLA_KUBE_CLUSTER_NAME: "" # Kubernetes cluster name
 
   config:
     # -- set to true, to skip the check around the ConfigMap creation
@@ -49,6 +44,14 @@ beyla:
     ## If empty, default configuration below is used.
     name: ""
     data:
+      prometheus_export:
+        path: /oodle_metrics
+        buckets:
+          duration_histogram: [ 0, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10, 30, 60, 120 ]
+          request_size_histogram: [ 0, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 32768 ]
+        ttl: 5m
+        features: [ application,application_process,application_span,application_service_graph,network,network_inter_zone ]
+        allow_service_graph_self_references: true
       otel_metrics_export:
         buckets:
           duration_histogram: [0, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10, 30, 60, 120]
@@ -56,6 +59,8 @@ beyla:
         ttl: 5m
         features: [application,application_process,application_span,application_service_graph,network,network_inter_zone]
         allow_service_graph_self_references: true
+      name_resolver:
+        sources: "k8s,dns"
       profile_port: 6060
       network:
         enable: true
