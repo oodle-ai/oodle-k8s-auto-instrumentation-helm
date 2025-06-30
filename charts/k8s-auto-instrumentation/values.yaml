@@ -33,6 +33,10 @@ beyla:
   podAnnotations:
     prometheus.io/port: "9090"
 
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+
   env:
     BEYLA_KUBE_CLUSTER_NAME: "" # Kubernetes cluster name
     BEYLA_NAME_RESOLVER_SOURCES: "k8s,dns"
