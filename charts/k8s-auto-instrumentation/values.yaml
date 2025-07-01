@@ -19,7 +19,7 @@ beyla:
        memory: 4Gi
      requests:
        cpu: 100m
-       memory: 512Mi
+       memory: 256Mi
 
   global:
     image:
@@ -27,11 +27,15 @@ beyla:
       repository: beyla
 
   image:
-    tag: 2.2.4.3
+    tag: 2.2.4.4
     repository: beyla
 
   podAnnotations:
     prometheus.io/port: "9090"
+
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
 
   env:
     BEYLA_KUBE_CLUSTER_NAME: "" # Kubernetes cluster name
@@ -56,13 +60,114 @@ beyla:
         ttl: 5m
         features: [ application,application_process,application_span,application_service_graph,network,network_inter_zone ]
         allow_service_graph_self_references: true
+        hostname_mapping:
+          enabled: true
+          mappings:
+            # Amazon
+            amazonaws.com:
+              service_name: "AWS"
+              patterns:
+                - regex: ".*s3.*"
+                  service_name: "AWS S3"
+                - regex: ".*dynamodb.*"
+                  service_name: "AWS DynamoDB"
+                - regex: ".*lambda.*"
+                  service_name: "AWS Lambda"
+                - regex: ".*rds.*"
+                  service_name: "AWS RDS"
+                - regex: ".*ec2.*"
+                  service_name: "AWS EC2"
+                - regex: ".*ecs.*"
+                  service_name: "AWS ECS"
+                - regex: ".*eks.*"
+                  service_name: "AWS EKS"
+
+            # Google
+            googleusercontent.com:
+              service_name: "Google User Content"
+
+            googleapis.com:
+              service_name: "Google APIs"
+              patterns:
+                - regex: ".*storage.*"
+                  service_name: "Google Cloud Storage"
+                - regex: ".*bigquery.*"
+                  service_name: "Google BigQuery"
+
+            # Azure services
+            azureedge.net:
+              service_name: "Azure CDN"
+            azurewebsites.net:
+              service_name: "Azure Web Apps"
+            blob.core.windows.net:
+              service_name: "Azure Blob Storage"
+
+            cloudfront.net:
+              service_name: "CloudFront CDN"
+
+            # Other CDNs
+            fastly.com:
+              service_name: "Fastly CDN"
+            cloudflare.com:
+              service_name: "Cloudflare CDN"
+
       otel_metrics_export:
         buckets:
           duration_histogram: [0, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10, 30, 60, 120]
           request_size_histogram: [0, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 32768]
         ttl: 5m
-        features: [application,application_process,application_span,application_service_graph,network,network_inter_zone]
+        features: [application,application_process,application_service_graph,network,network_inter_zone]
         allow_service_graph_self_references: true
+        hostname_mapping:
+          enabled: true
+          mappings:
+            # Amazon
+            amazonaws.com:
+              service_name: "AWS"
+              patterns:
+                - regex: ".*s3.*"
+                  service_name: "AWS S3"
+                - regex: ".*dynamodb.*"
+                  service_name: "AWS DynamoDB"
+                - regex: ".*lambda.*"
+                  service_name: "AWS Lambda"
+                - regex: ".*rds.*"
+                  service_name: "AWS RDS"
+                - regex: ".*ec2.*"
+                  service_name: "AWS EC2"
+                - regex: ".*ecs.*"
+                  service_name: "AWS ECS"
+                - regex: ".*eks.*"
+                  service_name: "AWS EKS"
+
+            # Google
+            googleusercontent.com:
+              service_name: "Google User Content"
+
+            googleapis.com:
+              service_name: "Google APIs"
+              patterns:
+                - regex: ".*storage.*"
+                  service_name: "Google Cloud Storage"
+                - regex: ".*bigquery.*"
+                  service_name: "Google BigQuery"
+
+            # Azure services
+            azureedge.net:
+              service_name: "Azure CDN"
+            azurewebsites.net:
+              service_name: "Azure Web Apps"
+            blob.core.windows.net:
+              service_name: "Azure Blob Storage"
+
+            cloudfront.net:
+              service_name: "CloudFront CDN"
+
+            # Other CDNs
+            fastly.com:
+              service_name: "Fastly CDN"
+            cloudflare.com:
+              service_name: "Cloudflare CDN"
       name_resolver:
         sources:
           - k8s
