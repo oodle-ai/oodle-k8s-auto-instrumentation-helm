@@ -23,11 +23,11 @@ beyla:
 
   global:
     image:
-      registry: "public.ecr.aws/h3e9h5g1/oodle"
+      registry: "public.ecr.aws/oodle-ai/oodle"
       repository: beyla
 
   image:
-    tag: 2.2.4.4
+    tag: 2.2.4.18
     repository: beyla
 
   podAnnotations:
