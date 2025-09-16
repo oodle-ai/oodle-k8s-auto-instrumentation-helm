@@ -55,7 +55,7 @@ beyla:
       prometheus_export:
         path: /oodle_metrics
         buckets:
-          duration_histogram: [ 0, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10, 30, 60, 120 ]
+          duration_histogram: [ 0, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 5, 10, 30, 60, 120 ]
           request_size_histogram: [ 0, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 32768 ]
         ttl: 5m
         features: [ application,application_process,application_service_graph,network,network_inter_zone ]
@@ -113,8 +113,8 @@ beyla:
 
       otel_metrics_export:
         buckets:
-          duration_histogram: [0, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10, 30, 60, 120]
-          request_size_histogram: [0, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 32768]
+          duration_histogram: [ 0, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 5, 10, 30, 60, 120 ]
+          request_size_histogram: [ 0, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 32768 ]
         ttl: 5m
         features: [application,application_process,application_service_graph,network,network_inter_zone]
         allow_service_graph_self_references: true
