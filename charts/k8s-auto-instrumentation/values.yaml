@@ -27,7 +27,7 @@ beyla:
       repository: beyla
 
   image:
-    tag: 2.2.4.20
+    tag: 2.2.4.21
     repository: beyla
 
   podAnnotations:

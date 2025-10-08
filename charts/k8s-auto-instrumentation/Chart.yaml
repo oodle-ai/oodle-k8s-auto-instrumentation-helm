@@ -4,7 +4,7 @@ name: oodle-k8s-auto-instrumentation
 description: A Helm chart for auto-instrumenting Kubernetes applications with eBPF.
 type: application
 version: 1.2.18
-appVersion: 2.5.17
+appVersion: 2.5.18
 sources:
   - https://github.com/oodle-ai/oodle-k8s-auto-instrumentation-helm/tree/main/charts/k8s-auto-instrumentation
 dependencies:
