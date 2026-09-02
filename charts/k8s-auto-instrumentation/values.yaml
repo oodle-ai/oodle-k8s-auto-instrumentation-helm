@@ -38,7 +38,15 @@ beyla:
       operator: Exists
 
   env:
-    BEYLA_KUBE_CLUSTER_NAME: "" # Kubernetes cluster name
+    # BEYLA_KUBE_CLUSTER_NAME (the Kubernetes cluster name) is deliberately not
+    # defaulted here. The beyla DaemonSet renders `env` and `envValueFrom` into the
+    # same container env list, so an empty default collides with parent charts that
+    # supply the cluster name from a ConfigMap/Secret via `envValueFrom`. Two entries
+    # with the same name make the DaemonSet unappliable under server-side apply
+    # (the default in Helm 4):
+    #   .spec.template.spec.containers[name="beyla"].env:
+    #   duplicate entries for key [name="BEYLA_KUBE_CLUSTER_NAME"]
+    # Set it yourself under `beyla.env` (see README) or via `beyla.envValueFrom`.
     BEYLA_NAME_RESOLVER_SOURCES: "k8s,dns"
 
   config:
